@@ -57,4 +57,12 @@ def tf_serving_workspace():
       sha256 = "70158101eab7ed44fd9cc34e7f247b3cae91a8e4490745d9d6eb7edc184e4d96",
       strip_prefix = "libevent-release-2.1.8-stable",
       build_file = "third_party/libevent.BUILD"
+
+  # gRPC requires a bind() for linking; see
+  # https://github.com/grpc/grpc/issues/13590 for a discussion.  This can be
+  # re-bound to target `grcp++` if you wish to build TensorFlow Serving with SSL
+  # support enabled.
+  native.bind(
+      name = "grpc_lib",
+      actual = "@grpc//:grpc++_unsecure",
   )
